@@ -1,0 +1,25 @@
+#!/bin/bash
+
+echo "Enter the path of the file or folder you want to back up:"
+read source_path
+
+if [ ! -e "$source_path" ]; then
+    echo "Error: The specified path does not exist. Please check and try again!"
+    exit 1
+fi
+
+echo "Enter the destination directory for the backup:"
+read backup_dir
+
+mkdir -p "$backup_dir"
+
+timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
+backup_name="backup_$timestamp.tar.gz"
+
+tar -czvf "$backup_dir/$backup_name" "$source_path"
+
+if [ $? -eq 0 ]; then
+    echo "Backup created successfully: $backup_dir/$backup_name"
+else
+    echo "Error: Failed to create the backup!"
+fi
